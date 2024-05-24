@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PP Laboratorio III</title>
+    <style>
+        *{
+            font-family: sans-serif;
+        }
+    
+        #tablaDatos{
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            min-width: 400px;
+            border-radius: 5px 5px 0 0;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+    
+        #tablaDatos thead tr{
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+    
+    
+        #tablaDatos th,
+        #tablaDatos td {
+            padding: 12px 15px;
+        }
+    
+    
+        #tablaDatos tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+    
+    
+        #tablaDatos tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+    
+    
+        #tablaDatos tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+    
+    
+        #tablaDatos tbody tr.active-row {
+            font-weight: bold;
+            color: #009879;
+        }
+
+        #tablaDatos td{
+            text-align: center;
+        }
+    
+    
+        #tablaDatos th button {
+            background-color: #009879;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+    
+    
+        #tablaDatos th button:hover {
+            background-color: #007965;
+        }
+    
+    
+        /* ESTILOS DEL FORMULARIO DATOS */
+        /* Estilos para el formulario */
+        #formDatos {
+            margin: 20px 0;
+            /* padding: 20px; */
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+    
+        /* Estilos para el select */
+        #formDatos select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+    
+        /* Estilos para los botones */
+        #formDatos button {
+            background-color: #009879;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+    
+        #formDatos button:hover {
+            background-color: #007965;
+        }
+    
+        /* Estilos para los checkboxes */
+        #formDatos input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    
+    
+        /*///////ESTILOS PARA EL FORMULARIO ABM//////////  */
+    
+    
+        #formABM {
+            margin: 20px 0;
+            /* padding: 20px; */
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Estilos para el encabezado */
+        #formABM h1 {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+    
+        /* Estilos para las etiquetas */
+        #formABM label {
+            display: block;
+            margin-bottom: 10px;
+        }
+    
+        /* Estilos para los inputs y select */
+        #formABM input[type="text"],
+        #formABM select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+    
+        /* Estilos para los botones */
+        #formABM button {
+            background-color: #009879;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+    
+        #formABM button:hover {
+            background-color: #007965;
+        }
+    
+        /* BOTON CREAR */
+        #buttonCrear{
+            background-color: #009879;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+    
+        #buttonCrear:hover{
+            background-color: #007965;
+        }
+
+
+        #buttonAgregar{
+            background-color: #009879;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-right: 10px;
+        }
+
+
+        #buttonAgregar{
+            background-color: #007965;
+        }
+    
+    
+        /* Estilos para el h1 */
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #009879;
+            border-bottom: 2px solid #009879;
+            padding-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    
+    <form id="formListado">
+        <h1> Form listado </h1>
+        <label for="filtro"> Filtrar por:</label>
+        <select name="filtro" id="filtro">
+            <option value="todos">Todos</option>
+            <option value="ciudadano">Ciudadano</option>
+            <option value="extranjero">Extranjero</option>
+        </select>
+        <label><br><br>Calcular:</label>
+        <input type="text" id="inputEdadPromedio" readonly>
+        <button id="calcular" type="button">Calcular</button><br>
+        <input type="checkbox" name="id" value="ID" data-column-index="0">
+        <label>ID</label>
+        <input type="checkbox" name="nombre" value="Nombre" data-column-index="1" >
+        <label>Nombre</label>
+        <input type="checkbox" name="apellido" value="Apellido" data-column-index="2">
+        <label>Apellido</label>  
+        <input type="checkbox" name="fechaNac" value="FechaNac" data-column-index="3">
+        <label>Fecha Nacimiento</label>
+        <input type="checkbox" name="dni" value="Dni" data-column-index="4">
+        <label>Dni</label>
+        <input type="checkbox" name="paisOrigen" value="PaisOrigen" data-column-index="5">
+        <label>Pais Origen</label>
+        <table id="tablaDatos">
+            <thead>
+                <tr>
+                    <th><button type="button">ID</button></th>
+                    <th><button type="button">Nombre</button></th>
+                    <th><button type="button">Apellido</button></th>
+                    <th><button type="button">Fecha Nacimiento</button></th>
+                    <th><button type="button">Dni</button></th>
+                    <th><button type="button">Pais Origen</button></th>               
+                </tr>
+            </thead>
+            <tbody>
+    
+            </tbody>
+        </table>
+        <button type ="button" id="buttonAgregar" onclick="mostrarFormularioABM()">Agregar</button>
+
+    </form>
+    
+    <form id="formABM" style="display:none;">
+        <h1>Formulario ABM</h1>
+        <label>ID:</label>
+        <input type="text" id="idABM" readonly><br>
+        <label>Nombre:</label>
+        <input type="text" id="nombreABM"><br>
+        <label>Apellido:</label>
+        <input type="text" id="apellidoABM"><br>
+        <label>Tipo:</label>
+        <select name="filtro" id="accion">
+            <option value="ciudadano" onclick="OcultarParametrosExtranjeros()" selected>Ciudadano</option>
+            <option value="extranjero" onclick="OcultarParametrosCiudadanos()">Extranjero</option>
+        </select><br>
+        <label>Fecha Nacimiento:</label>
+        <input type="text" id="fechaNacABM"><br>
+        <label id="labelDniABM" >Dni:</label>
+        <input type="text" id="dniABM"><br>
+        <label id="labelPaisOrigenABM">Pais Origen:</label>
+        <input type="text" id="paisOrigenABM" readonly><br>
+        <button id="buttonCrear" type="button" onclick="realizarAccion()">Crear</button>
+        <button id="buttonModificar" type="button" onclick="realizarAccion()">Modificar</button>
+        <button id="buttonEliminar" type="button" onclick="realizarAccion()">Eliminar</button>
+        <button id="buttonCancelar" type="button" onclick="realizarAccion()">Cancelar</button>
+    </form>
+
+    <script type="text/javascript">
+        //CLASES
+
+        class Persona {
+            constructor(id, nombre, apellido, fechaNacimiento) {
+                this.id = id;
+                this.nombre = nombre;
+                this.apellido = apellido;
+                this.fechaNacimiento = fechaNacimiento;
+            }
+
+            toString() {
+                return `${this.id}, ${this.nombre}, ${this.apellido}, ${this.fechaNacimiento}`;
+            }
+        }
+
+        class Ciudadano extends Persona {
+            constructor(id, nombre, apellido, fechaNacimiento, dni) {
+                super(id, nombre, apellido, fechaNacimiento);
+                this.dni = dni;
+            }
+
+            toString() {
+                return `${super.toString()}, ${this.dni}`;
+            }
+        }
+
+        class Extranjero extends Persona {
+            constructor(id, nombre, apellido, fechaNacimiento, paisOrigen) {
+                super(id, nombre, apellido, fechaNacimiento);
+                this.paisOrigen = paisOrigen;
+            }
+
+            toString() {
+                return `${super.toString()}, ${this.paisOrigen}`;
+            }
+        }
+
+        limpiarFormulario();
+        let stringJson = '[{"id":1,"apellido":"Serrano","nombre":"Horacio","fechaNacimiento":19840103,"dni":45876942},{"id":2,"apellido":"Casas","nombre":"Julian","fechaNacimiento":19990723,"dni":98536214},{"id":3,"apellido":"Galeano","nombre":"Julieta","fechaNacimiento":20081103,"dni":74859612},{"id":4,"apellido":"Molina","nombre":"Juana","fechaNacimiento":19681201,"paisOrigen":"Paraguay"},{"id":5,"apellido":"Barrichello","nombre":"Rubens","fechaNacimiento":19720523,"paisOrigen":"Brazil"},{"id":666,"apellido":"Hkkinen","nombre":"Mika","fechaNacimiento":19680928,"paisOrigen":"Finlandia"}]';
+
+        function GenerarArrayObjetos(stringJson)
+        {
+            let arrayJson = JSON.parse(stringJson);
+            let arrayObjetos = [];
+
+            arrayJson.forEach(item => {
+                if('dni' in item)
+                {
+                    arrayObjetos.push(new Ciudadano(item.id,item.nombre,item.apellido,item.fechaNacimiento,item.dni,item.apellido));
+                }
+                else if ('paisOrigen' in item) 
+                {
+                    arrayObjetos.push(new Extranjero(item.id,item.nombre,item.apellido,item.fechaNacimiento,item.paisOrigen));
+                }
+                else
+                {
+                    arrayObjetos.push(new Persona(item.id,item.nombre,item.apellido,item.fechaNacimiento));
+                }
+            });
+
+            return arrayObjetos;
+        }
+
+        function agregarCelda(fila, contenido) 
+        {
+            let celda = document.createElement('td');
+            if (contenido !== undefined && contenido !== null && contenido !== '') {
+            celda.textContent = contenido;
+            } else {
+            celda.textContent = 0;
+            }
+            fila.appendChild(celda);
+        }
+
+        function agregarDatosATabla(objetos) {
+            let tbody = document.querySelector('#tablaDatos tbody');
+            objetos.forEach(objeto => {
+            let fila = document.createElement('tr');
+            fila.setAttribute('data-id', objeto.id); // Agregar el atributo data-id con el ID correspondiente
+
+            agregarCelda(fila, objeto.id);
+            agregarCelda(fila, objeto.nombre);
+            agregarCelda(fila, objeto.apellido);
+            agregarCelda(fila, objeto.fechaNacimiento);
+            agregarCelda(fila, objeto.dni);
+            agregarCelda(fila, objeto.paisOrigen);
+        
+            tbody.appendChild(fila);
+            });
+        }
+
+
+        function limpiarFormulario() {
+            // Limpiar campos de texto
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = '';
+            });
+
+            // Limpiar checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+
+            // Restablecer el valor por defecto del select
+            document.querySelector('#filtro').value = 'todos';
+        }
+
+        //AGREGAR DATOS A LA TABLA
+        let objetos = GenerarArrayObjetos(stringJson);
+
+        agregarDatosATabla(objetos);
+        asignarEventoDobleClick();
+
+        function limpiarTabla() 
+        {
+            let tbody = document.querySelector('#tablaDatos tbody');
+            tbody.innerHTML = ''; // Eliminar todo el contenido del tbody
+        }
+
+        //FILTRAR DATOS DE LOS OBJETOS
+        document.getElementById('filtro').addEventListener('change', function() 
+        {
+            let valorSeleccionado = this.value; // Obtener el valor seleccionado del select
+    
+            // Filtrar objetos según la opción seleccionada
+            let objetosFiltrados;
+            if (valorSeleccionado === 'ciudadano') {
+                objetosFiltrados = objetos.filter(objeto => objeto instanceof Ciudadano);
+            } else if (valorSeleccionado === 'extranjero') {
+                objetosFiltrados = objetos.filter(objeto => objeto instanceof Extranjero);
+            } else {
+                objetosFiltrados = objetos;
+            }
+    
+            // Limpiar la tabla antes de agregar nuevos datos
+            limpiarTabla();
+            
+            // Mostrar los datos filtrados en la tabla
+            agregarDatosATabla(objetosFiltrados);
+
+            asignarEventoDobleClick();
+        });
+
+        
+        document.getElementById('filtro').addEventListener('change', function() {
+            let valorSeleccionado = this.value;
+            let objetosFiltrados;
+
+            if (valorSeleccionado === 'ciudadano') {
+                objetosFiltrados = objetos.filter(objeto => objeto instanceof Ciudadano);
+            } else if (valorSeleccionado === 'extranjero') {
+                objetosFiltrados = objetos.filter(objeto => objeto instanceof Extranjero);
+            } else {
+                objetosFiltrados = objetos;
+            }
+
+            return objetosFiltrados;
+        });
+        
+
+
+        //LLAMAR A LA FUNCION AL APRETAR EL BOTON CALCULAR
+        document.getElementById('calcular').addEventListener('click', function() 
+        {
+            calcularEdadPromedio();
+        });
+
+        function calcularEdadPromedio() {
+
+            let valorSeleccionado = document.getElementById('filtro').value;
+            let objetosFiltrados;
+            if (valorSeleccionado === 'ciudadano') {
+                objetosFiltrados = objetos.filter(objeto => objeto instanceof Ciudadano);
+            } else if (valorSeleccionado === 'extranjero') {
+                objetosFiltrados = objetos.filter(objeto => objeto instanceof Extranjero);
+            } else {
+                objetosFiltrados = objetos;
+            }
+            // Obtener el año actual
+            let añoActual = new Date().getFullYear();
+
+            // Calcular la suma de las edades
+            let sumaEdades = objetosFiltrados.reduce((acumulador, persona) => {
+                // Extraer el año de nacimiento de la cadena AAAAMMDD
+                let añoNacimiento = parseInt(persona.fechaNacimiento.toString().substring(0, 4));
+                // Calcular la edad y agregarla al acumulador
+                return acumulador + (añoActual - añoNacimiento);
+            }, 0);
+
+            // Calcular el promedio de edades
+            let promedioEdades = sumaEdades / objetosFiltrados.length;
+
+            document.getElementById('inputEdadPromedio').value = promedioEdades.toFixed(2);
+        }
+
+
+        function asignarEventoDobleClick() {
+            let celdas = document.querySelectorAll('#tablaDatos tbody td');
+            celdas.forEach(celda => {
+                celda.addEventListener('dblclick', function() {
+                    // Obtener la fila correspondiente a esta celda
+                    let fila = celda.parentNode;
+
+                    // Obtener los datos de la fila
+                    let id = fila.cells[0].textContent;
+                    let nombre = fila.cells[1].textContent;
+                    let apellido = fila.cells[2].textContent;
+                    let fechaNacimiento = fila.cells[3].textContent;
+
+                    // Rellenar los campos del formulario formABM
+                    document.getElementById('idABM').value = id;
+                    document.getElementById('nombreABM').value = nombre;
+                    document.getElementById('apellidoABM').value = apellido;
+                    document.getElementById('fechaNacABM').value = fechaNacimiento;
+
+                    //Ocultar botones
+                    document.getElementById('buttonCrear').style.display = 'none';
+                    //Mostrar botones
+                    document.getElementById('buttonEliminar').style.display = 'initial';
+                    document.getElementById('buttonModificar').style.display = 'initial';
+
+                    let select = document.getElementById('accion');
+                    let dniABM = document.getElementById('dniABM');
+                    let paisOrigenABM = document.getElementById('paisOrigenABM');
+                    select.disabled = true;
+
+
+                    // Verificar si el objeto es ciudadano o extranjero
+                    let dni = fila.cells[4].textContent;
+                    let paisOrigen = fila.cells[5].textContent;
+
+                    if (dni > 0) {
+                        select.value = "ciudadano";
+                        // Es un ciudadano, rellenar el campo DNI
+                        dniABM.value = dni;
+                        paisOrigenABM.readOnly = true;
+                        dniABM.readOnly = false;
+                        document.getElementById('formListado').style.display = 'none';
+                        document.getElementById('formABM').style.display = 'block';
+                    } else {
+                        select.value = 'extranjero';
+                        paisOrigenABM.value = paisOrigen;
+                        dniABM.readOnly = true;
+                        paisOrigenABM.readOnly = false;
+                        // Es un extranjero, rellenar el campo País de Origen
+                        // Ocultar formListado y mostrar formABM
+                        document.getElementById('formListado').style.display = 'none';
+                        document.getElementById('formABM').style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        function mostrarFormularioABM()
+        {
+            document.getElementById("formABM").style.display = 'block';
+            document.getElementById("formListado").style.display = 'none';
+            document.getElementById("buttonCrear").style.display = 'initial';
+            document.getElementById('buttonModificar').style.display = 'none';
+            document.getElementById('buttonEliminar').style.display = 'none';
+            document.getElementById('accion').disabled = false;
+        }
+
+
+        function alta() {
+            let nombre = document.getElementById('nombreABM').value;
+            let apellido = document.getElementById('apellidoABM').value;
+            let fechaNac = parseInt(document.getElementById('fechaNacABM').value);
+            let dni = parseInt(document.getElementById('dniABM').value);
+
+            if(!(verificarString(nombre) && verificarString(apellido))){
+                alert("Debe ingresar correctamente el nombre o el apellido");
+                return false;
+            }
+
+            // Verificar la fecha de nacimiento
+            if (!verificarFechaNacimiento(fechaNac)) {
+                alert('La fecha de nacimiento debe estar en el formato YYYYMMDD y ser una fecha válida.');
+                return false; // Retornar false si la fecha no es válida
+            }
+            
+            //VerificarDNI
+            if(!verificarDni(dni)) {
+                alert("Ingrese correctamente su DNI");
+                return false;
+            }
+            
+            // Generar un ID único que no se repita
+            let id = generarIdUnico();
+
+            // Determinar el tipo de persona a crear
+            let tipo = document.getElementById('accion').value;
+            let nuevaPersona;
+
+            // Crear un nuevo objeto Persona o Ciudadano
+            if (tipo === 'ciudadano') {
+                let dni = parseInt(document.getElementById('dniABM').value);
+                nuevaPersona = new Ciudadano(id, nombre, apellido, fechaNac, dni);
+            } else {
+                let paisOrigen = document.getElementById('paisOrigenABM').value;
+                nuevaPersona = new Extranjero(id, nombre, apellido, fechaNac, paisOrigen);
+            }
+
+            // Agregar la nueva persona al arreglo de objetos
+            objetos.push(nuevaPersona);
+
+            // Limpiar el formulario
+            limpiarFormulario();
+
+            return true; // Retornar true si todos los campos son válidos y se agrega la persona
+        }
+
+        function generarIdUnico() {
+            // Obtener todos los IDs existentes y ordenarlos de manera ascendente
+            let idsExistente = objetos.map(objeto => objeto.id).sort((a, b) => a - b);
+
+            let idUnico;
+
+            // Iterar sobre los IDs ordenados para encontrar el primer número faltante
+            for (let i = 0; i < idsExistente.length; i++) {
+                if (idsExistente[i] !== i + 1) {
+                    // Si se encuentra un hueco, se asigna el número faltante como el nuevo ID único
+                    idUnico = i + 1;
+                    break;
+                }
+            }
+
+            // Si todos los números están presentes, el nuevo ID único será el siguiente al último número
+            if (!idUnico) {
+                idUnico = idsExistente[idsExistente.length - 1] + 1;
+            }
+
+            return idUnico;
+        }
+
+
+        function modificar() 
+        {
+            let id = parseInt(document.getElementById('idABM').value);
+            let index = objetos.findIndex(persona => persona.id === id);
+            if (index !== -1) {
+                let nombre = document.getElementById('nombreABM').value;
+                let apellido = document.getElementById('apellidoABM').value;
+                let fechaNac = parseInt(document.getElementById('fechaNacABM').value);
+                let paisOrigen = document.getElementById('paisOrigenABM').value;
+                let dni = parseInt(document.getElementById('dniABM').value);
+
+                // Verificar que los campos de nombre y apellido sean válidos
+                if (!(verificarString(nombre) && verificarString(apellido))) {
+                    alert("Debe ingresar correctamente el nombre o el apellido");
+                    return;
+                }
+
+                // Verificar la fecha de nacimiento
+                if (!verificarFechaNacimiento(fechaNac)) {
+                    alert('La fecha de nacimiento debe estar en el formato YYYYMMDD y ser una fecha válida.');
+                    return;
+                }
+
+                // Verificar el DNI si se ha ingresado
+                if (dni && !verificarDni(dni)) {
+                    alert("Ingrese correctamente su DNI");
+                    return;
+                }
+
+                if(!(verificarString(paisOrigen))){
+                    alert("Debe ingresar correctamente el pais de origen");
+                    return;
+                }
+
+                objetos[index].nombre = nombre;
+                objetos[index].apellido = apellido;
+                objetos[index].fechaNac = fechaNac;
+                objetos[index].paisOrigen = paisOrigen;
+                if(paisOrigen == 0 ){
+                    objetos[index].dni = dni;
+                    
+                }
+                else{
+                    dni = 0;
+                }
+
+                console.log('Persona modificada:', objetos[index]);
+                return true;
+            } else {
+                console.log('Persona no encontrada.');
+                return false;
+            }
+        }
+
+
+        function eliminar() {
+            let id = parseInt(document.getElementById('idABM').value);
+            let index = objetos.findIndex(persona => persona.id === id);
+            if (index !== -1) {
+                objetos.splice(index, 1);
+            } else {
+            }
+        }
+
+
+        function realizarAccion() {
+            // Obtener el ID del botón que activó la función
+            let idBoton = event.target.id;
+
+            // Realizar la acción basada en el ID del botón
+            if (idBoton === 'buttonCrear') {
+                if (alta()) {
+                    document.getElementById('formABM').style.display = 'none';
+                    limpiarTabla();
+                    agregarDatosATabla(objetos);
+                    document.getElementById('formListado').style.display = 'initial';
+                    limpiarFormulario();
+                };
+            } else if (idBoton === 'buttonModificar') {
+                if(modificar()){
+                    document.getElementById('formABM').style.display = 'none';
+                    limpiarTabla();
+                    agregarDatosATabla(objetos);
+                    document.getElementById('formListado').style.display = 'block';
+                    limpiarFormulario();
+                }
+                
+            } else if (idBoton === "buttonEliminar") {
+                eliminar();
+                document.getElementById('formABM').style.display = 'none';
+                limpiarTabla();
+                agregarDatosATabla(objetos);
+                document.getElementById('formListado').style.display = 'initial';
+                limpiarFormulario();
+            } else {
+                limpiarFormulario();
+                document.getElementById('formABM').style.display = 'none';
+                document.getElementById('formListado').style.display = 'initial';
+            }
+
+            asignarEventoDobleClick();
+        }
+
+
+        let buttons = document.querySelectorAll('#tablaDatos th button');
+
+        // Agregar evento de clic a cada botón
+            buttons.forEach((button, index) => {
+            button.addEventListener('click', function() {
+            ordenarTabla(index); // Ordenar la tabla según el índice de la columna
+            });
+        });
+
+        function obtenerTipoDeDato(celda) {
+            // Obtener el contenido de la primera celda de la columna
+            let primerCelda = celda.parentElement.parentElement.querySelector('tbody tr:first-child td:nth-child(' + (celda.cellIndex + 1) + ')');
+            let contenido = primerCelda.textContent.trim();
+
+            // Verificar si el contenido es un número o una cadena
+            if (!isNaN(contenido)) {
+                return 'numero'; // Si el contenido es un número
+            } else {
+                return 'cadena'; // Si el contenido es una cadena
+            }
+        }
+
+
+        function ordenarTabla(columna) {
+            // Obtener todas las filas de la tabla
+            let filas = Array.from(document.querySelectorAll('#tablaDatos tbody tr'));
+
+            // Ordenar las filas según el contenido de la columna
+            filas.sort((filaA, filaB) => {
+                let contenidoA = filaA.cells[columna].textContent.trim();
+                let contenidoB = filaB.cells[columna].textContent.trim();
+
+                // Obtener el tipo de dato de la columna actual
+                let tipoDato = obtenerTipoDeDato(filaA.cells[columna]);
+
+                if (tipoDato === 'numero') {
+                    // Si el tipo de dato es número, convertir los contenidos a números
+                    let valorA = parseInt(contenidoA);
+                    let valorB = parseInt(contenidoB);
+                    return valorA - valorB;
+                } else {
+                    // Si el tipo de dato es cadena, comparar los contenidos como cadenas
+                    return contenidoA.localeCompare(contenidoB);
+                }
+            });
+
+            // Vaciar la tabla
+            let tbody = document.querySelector('#tablaDatos tbody');
+            tbody.innerHTML = '';
+
+            // Agregar las filas ordenadas a la tabla
+            filas.forEach(fila => {
+                tbody.appendChild(fila);
+            });
+        }
+
+
+        let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Obtener el índice de columna asociado al checkbox
+                let columnIndex = parseInt(checkbox.getAttribute('data-column-index'));
+
+                // Obtener todas las filas de la tabla (encabezados y datos)
+                let rows = document.querySelectorAll('#tablaDatos tr');
+
+                // Mostrar u ocultar la celda correspondiente en cada fila
+                rows.forEach(row => {
+                    let cell = row.cells[columnIndex];
+                    cell.style.display = checkbox.checked ? '' : 'none';
+                });
+            });
+        });
+
+
+        function OcultarParametrosExtranjeros(){
+            paisOrigenABM = document.getElementById("paisOrigenABM");
+            labelPaisOrigenABM = document.getElementById("labelPaisOrigenABM");
+            dniABM = document.getElementById("dniABM");
+            labelDniABM = document.getElementById("labelDniABM");
+
+            dniABM.readOnly = false;
+            paisOrigenABM.readOnly = true;
+        }
+
+
+        function OcultarParametrosCiudadanos(){
+            dniABM = document.getElementById("dniABM");
+            labelDniABM = document.getElementById("labelDniABM");
+            paisOrigenABM = document.getElementById("paisOrigenABM");
+            labelPaisOrigenABM = document.getElementById("labelPaisOrigenABM");
+
+            paisOrigenABM.readOnly = false;
+            dniABM.readOnly = true;
+        }
+
+
+        function verificarFechaNacimiento(fechaNac) {
+
+            fechaNac = fechaNac.toString();
+
+            // Verificar que la longitud de la fecha sea 8
+            if (fechaNac.length !== 8) {
+                return false;
+            }
+
+            // Extraer año, mes y día
+            const año = parseInt(fechaNac.substring(0, 4), 10);
+            const mes = parseInt(fechaNac.substring(4, 6), 10);
+            const dia = parseInt(fechaNac.substring(6, 8), 10);
+
+            // Verificar que el año, mes y día sean números válidos
+            if (isNaN(año) || isNaN(mes) || isNaN(dia)) {
+                return false;
+            }
+
+            // Verificar que el mes esté en el rango 1-12
+            if (mes < 1 || mes > 12) {
+                return false;
+            }
+
+            // Verificar los días válidos para cada mes
+            const diasEnMes = [31, (año % 4 === 0 && año % 100 !== 0) || (año % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            if (dia < 1 || dia > diasEnMes[mes - 1]) {
+                return false;
+            }
+
+            // Si todas las verificaciones pasan, la fecha es válida
+            return true;
+        }
+
+
+        function verificarDni(dni) {
+        // Convertir a string por si se recibe un número
+        dni = dni.toString();
+
+        // Verificar que tenga exactamente 9 caracteres y que todos sean dígitos
+        if (dni.length === 8 && !isNaN(dni)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+        function verificarString(cadena) {
+            // Iterar a través de cada carácter de la cadena
+            for (let i = 0; i < cadena.length; i++) {
+                let char = cadena[i];
+                // Verificar si el carácter no es una letra (a-z, A-Z)
+                if (!((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z'))) {
+                    return false;
+                }
+            }
+            return true;
+        }        
+    </script>
+    
+</body>
+</html>
